@@ -24,9 +24,8 @@ export default function Login() {
       setLoading(true);
 
       //  2. API call
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        { email, password, role }
+      const res = await axios.post("/api/auth/login",
+        {email, password, role}
       );
 
       //  3. Success check
