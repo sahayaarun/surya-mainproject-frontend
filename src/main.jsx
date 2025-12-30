@@ -3,11 +3,11 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
-
-// This two lines
 import axios from 'axios';
+
+// Backend API URL Configuration
 axios.defaults.baseURL = 'https://surya-mainproject-backend-production.up.railway.app';
-axios.defaults.withCredentials = true; 
+axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
