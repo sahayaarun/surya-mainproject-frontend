@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom"; // Link சேர்க்கப்பட்டுள்ளது
+import { useNavigate, Link } from "react-router-dom"; // Link is imported for navigation
 
 export default function Register() {
   const navigate = useNavigate();
@@ -12,6 +12,8 @@ export default function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    
+    // Check for empty fields
     if (!name || !email || !password || !role) {
       alert("Please fill all fields");
       return;
@@ -21,10 +23,12 @@ export default function Register() {
       const res = await axios.post("https://surya-mainproject-backend-production.up.railway.app/api/auth/register", {
         name, email, password, role,
       });
+      
       alert("Registration successful");
-      navigate("/login");
+      navigate("/login"); // Redirect to login page after success
     } catch (err) {
-      alert(err.response?.data?.message || "Registration failed");
+      // Show specific error message from server or a default one
+      alert(err.response?.data?.message || "Registration failed. Please try again.");
     }
   };
 
@@ -34,20 +38,25 @@ export default function Register() {
     >
       <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl">
         <h2 className="text-2xl font-bold text-center text-blue-700 mb-6">Register Page</h2>
+        
         <form onSubmit={handleRegister} className="space-y-5">
           <input type="text" placeholder="Full Name" onChange={(e) => setName(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
           <input type="email" placeholder="Email Address" onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
           <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+          
           <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 outline-none">
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
             <option value="jobseeker">Job Seeker</option>
             <option value="employee">Employee</option>
           </select>
-          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">Register</button>
+          
+          <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-200">
+            Register
+          </button>
         </form>
 
-        
+        {/* Link to navigate back to the Login page */}
         <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
           <Link to="/login" className="text-blue-600 font-bold hover:underline">
