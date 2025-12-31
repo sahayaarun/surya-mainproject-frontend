@@ -19,7 +19,7 @@ export default function Register() {
     }
 
     try {
-     const res = await axios.post("/api/auth/register", {
+     const res = await axios.post("https://surya-mainproject-backend-production.up.railway.app/api/auth/register", {
         name,
         email,
         password,

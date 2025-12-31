@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "/api/jobs";
+// Your Railway Backend URL
+const API_URL = "https://surya-mainproject-backend-production.up.railway.app/api/jobs";
 
 /* =======================
    EMPLOYER

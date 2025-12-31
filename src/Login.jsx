@@ -23,8 +23,8 @@ export default function Login() {
     try {
       setLoading(true);
 
-      //  2. API call
-      const res = await axios.post("/api/auth/login",
+      //  2. API call - railway backend api call
+      const res = await axios.post("https://surya-mainproject-backend-production.up.railway.app/api/auth/login",
         {email, password, role}
       );
 
