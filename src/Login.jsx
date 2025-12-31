@@ -1,20 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Link சேர்க்கப்பட்டுள்ளது
 
 export default function Login() {
   const navigate = useNavigate();
-
-  // State variables
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submit
-
-    //  1. Empty check
+    e.preventDefault();
     if (!email || !password || !role) {
       alert("All fields are required");
       return;
@@ -22,38 +18,21 @@ export default function Login() {
 
     try {
       setLoading(true);
+      const res = await axios.post("https://surya-mainproject-backend-production.up.railway.app/api/auth/login", {email, password, role});
 
-      //  2. API call - railway backend api call
-      const res = await axios.post("https://surya-mainproject-backend-production.up.railway.app/api/auth/login",
-        {email, password, role}
-      );
-
-      //  3. Success check
       if (res.data && res.data.role) {
         alert("Login Successful");
-
-        //  THIS IS THE ONLY IMPORTANT ADD 
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("role", res.data.role);
-        // ADD END 
 
-        //  4. Role-based redirect
         switch (res.data.role) {
-          case "admin":
-            navigate("/admin-dashboard");
-            break;
-          case "jobseeker":
-            navigate("/jobseeker-dashboard");
-            break;
-          case "employee":
-            navigate("/employee-dashboard");
-            break;
-          default:
-            alert("Invalid role");
+          case "admin": navigate("/admin-dashboard"); break;
+          case "jobseeker": navigate("/jobseeker-dashboard"); break;
+          case "employee": navigate("/employee-dashboard"); break;
+          default: alert("Invalid role");
         }
       }
     } catch (error) {
-      // 5. Improved error handling
       alert(error.response?.data?.message || error.message || "Login failed");
     } finally {
       setLoading(false);
@@ -61,71 +40,32 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-600 to-purple-600"
-    style={{
-      backgroundImage:
-        "url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')",
-    }}
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1498050108023-c5249f4df085')" }}
     >
       <div className="bg-white p-8 rounded-lg shadow-lg w-80">
         <h2 className="text-2xl font-bold text-center mb-6">Login Page</h2>
-
         <form onSubmit={handleLogin}>
-          {/* Email */}
-          <label className="block mb-1 font-medium" htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            className="w-full border p-2 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-          />
-
-          {/* Password */}
-          <label className="block mb-1 font-medium" htmlFor="password">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            className="w-full border p-2 mb-4 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
-
-          {/* Role */}
-          <label className="block mb-1 font-medium" htmlFor="role">
-            Select Role
-          </label>
-          <select
-            id="role"
-            className="w-full border p-2 mb-6 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
+          <input type="email" placeholder="Email" className="w-full border p-2 mb-4 rounded focus:ring-2 focus:ring-indigo-400 outline-none" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input type="password" placeholder="Password" className="w-full border p-2 mb-4 rounded focus:ring-2 focus:ring-indigo-400 outline-none" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <select className="w-full border p-2 mb-6 rounded focus:ring-2 focus:ring-indigo-400 outline-none" value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
             <option value="jobseeker">Job Seeker</option>
             <option value="employee">Employee</option>
           </select>
-
-          {/* Login Button */}
-          <button
-            type="submit"
-            className={`w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            disabled={loading}
-          >
+          <button type="submit" className={`w-full bg-indigo-600 text-white py-2 rounded ${loading ? "opacity-50" : ""}`} disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+
+        
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-indigo-600 font-bold hover:underline">
+            Register here
+          </Link>
+        </p>
       </div>
     </div>
   );
