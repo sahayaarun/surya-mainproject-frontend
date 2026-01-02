@@ -3,8 +3,6 @@ import Login from "./Login";
 import Register from "./Register";
 import EmployeeDashboard from "./Components/EmployeeDashboard";
 import AdminDasboard from "./Components/AdminDasboard";
-import AdminTest from"./Components/AdminTest"
-import EmployeeTest from"./Components/EmployeeTest"
 import JobseekerDashboard from "./Components/JobseekerDashboard";
 import ProtectedRoute from "./ProtectedRoute";
 
