@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Link சேர்க்கப்பட்டுள்ளது
+import { useNavigate, Link } from "react-router-dom"; // Link 
 
 export default function Login() {
   const navigate = useNavigate();

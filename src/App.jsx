@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
+import EmployeeDashboard from "./Components/EmployeeDashboard";
+import AdminDasboard from "./Components/AdminDasboard";
 import AdminTest from"./Components/AdminTest"
 import EmployeeTest from"./Components/EmployeeTest"
 import JobseekerDashboard from "./Components/JobseekerDashboard";
@@ -13,19 +15,19 @@ export default function App() {
       <Route path="/register" element={<Register />} />
       
       <Route 
-        path="/admin-test" 
+        path="/admin-dashboard" 
         element={
           <ProtectedRoute allowedRole="admin">
-            <AdminTest/>
+            <AdminDasboard/>
           </ProtectedRoute>
         } 
       />
       
       <Route 
-        path="/employee-test" 
+        path="/employee-dashboard" 
         element={
           <ProtectedRoute allowedRole="employee">
-            <EmployeeTest />
+            <EmployeeDashboard />
           </ProtectedRoute>
         } 
       />
